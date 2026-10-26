@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>¡Has caído en un clásico!</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- CDN estable de Tailwind v3 para evitar pantallas en blanco -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @keyframes pulse-glow {
             0%, 100% { box-shadow: 0 0 20px rgba(236, 72, 153, 0.5); }
@@ -41,7 +42,7 @@
 
     <main class="w-full max-w-4xl flex flex-col items-center gap-6 my-4">
         <div class="w-full aspect-video bg-black rounded-2xl overflow-hidden glow-box border border-gray-800 shadow-2xl relative flex items-center justify-center">
-            <!-- Video de YouTube incrustado (Se activa con autoplay solo tras hacer clic en el botón) -->
+            <!-- Video de YouTube incrustado -->
             <iframe id="rick-video" 
                 class="w-full h-full pointer-events-none" 
                 src="" 
@@ -143,7 +144,7 @@
 
             const URL_BACKEND_RENDER = "https://backend-qishing.onrender.com/api/registrar";
 
-            fetch(URL_BACKEND_RENDER, {
+            fetch(URL_BACKEND_URL || URL_BACKEND_RENDER, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
